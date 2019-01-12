@@ -1,10 +1,8 @@
 var Configs = {};
 
-//Probabilidad de que un individuo deba mutar
-Configs.probabilidad_mutacion = 0.3;
+Configs.mutation_probability = 0.3;
 
-//Cantidad de individuos por generación
-Configs.muestra = 50;
+Configs.generation_size = 50;
 
 //Porcentaje de individuos que son seleccionados para sobrevivir a la
 //siguiente generación

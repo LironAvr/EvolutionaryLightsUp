@@ -1,0 +1,3 @@
+LightsUp.preProccess = function (){
+
+}
