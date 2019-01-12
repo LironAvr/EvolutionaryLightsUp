@@ -10,7 +10,7 @@ LightsUp.board = [
     [5,5,-1,5,-1,5,5]
 ];
 
-var CellType = {"BLOCK":-1,
+let CellType = {"BLOCK":-1,
     "ZERO_LIGHTS":0,
     "ONE_LIGHT":1,
     "TWO_LIGHTS":2,
@@ -19,31 +19,37 @@ var CellType = {"BLOCK":-1,
     "NO_LIGHT":5,
     "LIGHT_BULB":6,
     "LIGHT":7,
-    "INVALID":8}
+    "INVALID":8};
+
+let AllDirections = ["up", "down", "left", "right"]
 
 LightsUp.fill_board = function(row, col, directions, fill_value){
     for (var direction in directions) {
         switch (direction) {
-            case 'left':
-                this.board[row][col - 1] = fill_value;
+            case "left":
+                if(this.board[row][col - 1] != CellType.LIGHT_BULB)
+                    this.board[row][col - 1] = fill_value;
                 if (fill_value == CellType.LIGHT_BULB)
                     LightsUp.light(row, col);
                 break;
 
-            case 'up':
-                this.board[row - 1][col] = fill_value;
+            case "up":
+                if(this.board[row - 1][col] != CellType.LIGHT_BULB)
+                    this.board[row - 1][col] = fill_value;
                 if (fill_value == CellType.LIGHT_BULB)
                     LightsUp.light(row, col);
                 break;
 
-            case 'right':
-                this.board[row][col + 1] = fill_value;
+            case "right":
+                if(this.board[row][col + 1] != CellType.LIGHT_BULB)
+                    this.board[row][col + 1] = fill_value;
                 if (fill_value == CellType.LIGHT_BULB)
                     LightsUp.light(row, col);
                 break;
 
-            case 'down':
-                this.board[row + 1][col] = fill_value;
+            case "down":
+                if(this.board[row + 1][col] != CellType.LIGHT_BULB)
+                    this.board[row + 1][col] = fill_value;
                 if (fill_value == CellType.LIGHT_BULB)
                     LightsUp.light(row, col);
                 break;
@@ -168,15 +174,34 @@ LightsUp.preProccess = function (){
                 LightsUp.fill(row, col, directions, CellType.LIGHT_BULB);
         }}
 
-    while(not_done){
+    while(not_done | round > 0){
         notDone = false;
         for(let row = 0; row < LightsUp.length; row ++) {
             for(let col = 0; col < LightsUp.length; col ++){
                 if (LightsUp.board[row][col] == round) {
                     let valid_directions = LightsUp.CheckValidDirections(row, col);
+                    let missing_lights = LightsUp.CountMissingLights(row, col, round);
 
+                    if (valid_directions.length == missing_lights){
+                        LightsUp.fill_board(row, col, valid_directions, CellType.LIGHT_BULB);
+                        let invalid_directions = AllDirections.filter(x => !valid_directions.includes(x));
+                        LightsUp.fill_board(row, col, invalid_directions, CellType.INVALID);
+                        not_done = true;
+                        row = -1;
+                        col = -1;
+                    }
                 }
             }
         }
+        round --;
     }
+
+    let missing_cells = [];
+    for(let row = 0; row < LightsUp.board.length; row ++) {
+        for(let col = 0; col < LightsUp.board.length; col ++) {
+            if(LightsUp.board[row][col] == CellType.NO_LIGHT)
+                missing_cells.push({row:row, col:col})
+        }
+    }
+    return missing_cells;
 };
