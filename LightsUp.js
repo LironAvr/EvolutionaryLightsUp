@@ -214,3 +214,7 @@ LightsUp.preProcess = function (){
 
 let missing = LightsUp.preProcess();
 console.log(missing);
+
+module.exports = {
+     LightsUp, CellType
+};
