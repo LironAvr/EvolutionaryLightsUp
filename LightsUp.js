@@ -30,7 +30,7 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 if(col > 0 && LightsUp.board[row][col - 1] != CellType.LIGHT_BULB){
                     LightsUp.board[row][col - 1] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row, col);
+                        LightsUp.light(row, col-1);
                 }
                 break;
 
@@ -38,7 +38,7 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 if(row > 0 && LightsUp.board[row - 1][col] != CellType.LIGHT_BULB){
                     LightsUp.board[row - 1][col] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row, col);
+                        LightsUp.light(row-1, col);
                 }
                 break;
 
@@ -46,7 +46,7 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 if(col + 1 < LightsUp.board[0].length && LightsUp.board[row][col + 1] != CellType.LIGHT_BULB){
                     LightsUp.board[row][col + 1] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row, col);
+                        LightsUp.light(row, col+1);
                 }
                 break;
 
@@ -55,39 +55,43 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 {
                     LightsUp.board[row + 1][col] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row, col);
+                        LightsUp.light(row+1, col);
                 }
                 break;
         }
     })
 };
 
+function lightable(row, col){
+    return ((LightsUp.board[row][col] == CellType.LIGHT) || (LightsUp.board[row][col] == CellType.NO_LIGHT) || (LightsUp.board[row][col] == CellType.INVALID));
+}
+
 LightsUp.light = function(row, col) {
 
     //Light Up
     let i = row - 1;
-    while (i >= 0 && LightsUp.board[i][col] == (CellType.NO_LIGHT | CellType.INVALID | CellType.LIGHT)) {
+    while (i >= 0 && lightable(i, col)){
         LightsUp.board[i][col] = CellType.LIGHT;
         i--;
     }
 
     //Light Down
     i = row + 1;
-    while (i < LightsUp.board.length && LightsUp.board[i][col] == (CellType.NO_LIGHT | CellType.INVALID | CellType.LIGHT)) {
+    while (i < LightsUp.board.length && lightable(i, col)){
         LightsUp.board[i][col] = CellType.LIGHT;
         i++;
     }
 
     //Light Left
     i = col - 1;
-        while (i >= 0 && LightsUp.board[row][i] == (CellType.NO_LIGHT | CellType.INVALID | CellType.LIGHT)) {
+        while (i >= 0 && lightable(row, i)){
         LightsUp.board[row][i] = CellType.LIGHT;
         i--;
     }
 
     //Light Right
     i = col + 1;
-    while (i < LightsUp.board[0].length && LightsUp.board[row][i] == (CellType.NO_LIGHT | CellType.INVALID | CellType.LIGHT)) {
+    while (i < LightsUp.board[0].length && lightable(row, i)){
         LightsUp.board[row][i] = CellType.LIGHT;
         i++;
     }
@@ -200,7 +204,7 @@ LightsUp.preProcess = function (){
                 LightsUp.fill_board(row, col, directions, CellType.LIGHT_BULB);
         }}
 
-    while(not_done | round > 0){
+    while(not_done || round > 0){
         not_done = false;
         for(let row = 0; row < LightsUp.board.length; row ++) {
             for(let col = 0; col < LightsUp.board.length; col ++){
