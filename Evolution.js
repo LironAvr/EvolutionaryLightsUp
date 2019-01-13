@@ -7,7 +7,8 @@ Evolution.genomeLength = 0;
 Evolution.initiate = function(genomeLength, generationSize){
     Evolution.genomeLength = genomeLength;
     for(let i = 0; i < generationSize; i++){
-        Evolution.generation.push(Evolution.createIndividual());
+        Evolution.generation[i] = {};
+        Evolution.generation[i].genome = Evolution.createIndividual();
     }
 };
 
@@ -19,7 +20,7 @@ Evolution.createIndividual = function(){
         else
             individual.push(0);
     }
-    Evolution.generation.push(individual);
+    return individual;
 };
 
 Evolution.fitness = function(individual){
@@ -27,7 +28,11 @@ Evolution.fitness = function(individual){
 };
 
 Evolution.mutate = function(individual){
-
+    let location = Math.floor(Math.random() * Evolution.genomeLength);
+    if(individual.genome[location] == 1)
+        individual.genome[location] = 0;
+    else
+        individual.genome[location] = 1;
 };
 
 Evolution.crossOver = function(ind1, ind2){
