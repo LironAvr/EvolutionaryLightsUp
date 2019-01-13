@@ -228,6 +228,7 @@ LightsUp.preProcess = function (){
                         row = -1;
                         col = -1;
                         round = 3;
+                        this.printBoard();
                         break;
                     }
                 }
