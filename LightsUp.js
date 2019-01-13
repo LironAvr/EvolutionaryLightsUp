@@ -167,6 +167,27 @@ LightsUp.checkValidDirections = function(row, col){
     return valid_directions;
 };
 
+LightsUp.checkMissingLights = function(row, col, count){
+    let ans = count;
+
+    //up
+    if (row > 0 && LightsUp.board[row - 1][col] == CellType.LIGHT_BULB)
+        ans--;
+
+    //down
+    if (row + 1 < LightsUp.board.length && LightsUp.board[row + 1][col] == CellType.LIGHT_BULB)
+        ans--;
+
+    //left
+    if (col > 0 && LightsUp.board[row][col - 1] == CellType.LIGHT_BULB)
+        ans--;
+
+    //right
+    if (col + 1 < LightsUp.board[0].length && LightsUp.board[row][col + 1] == CellType.LIGHT_BULB)
+        ans--;
+    return ans;
+};
+
 LightsUp.preProcess = function (){
     let not_done = true;
     let round = 3;
@@ -180,12 +201,12 @@ LightsUp.preProcess = function (){
         }}
 
     while(not_done | round > 0){
-        notDone = false;
+        not_done = false;
         for(let row = 0; row < LightsUp.board.length; row ++) {
             for(let col = 0; col < LightsUp.board.length; col ++){
                 if (LightsUp.board[row][col] == round) {
                     let valid_directions = LightsUp.checkValidDirections(row, col);
-                    let missing_lights = LightsUp.checkValidDirections(row, col, round);
+                    let missing_lights = LightsUp.checkMissingLights(row, col, round);
 
                     if (valid_directions.length == missing_lights){
                         LightsUp.fill_board(row, col, valid_directions, CellType.LIGHT_BULB);
