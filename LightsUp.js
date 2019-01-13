@@ -1,13 +1,13 @@
 var LightsUp = {};
 
 LightsUp.board = [
-    [5,5,-1,5,0,5,5],
+    [5,5,9,5,0,5,5],
     [5,5,5,5,5,5,5],
     [0,5,5,5,5,5,0],
     [5,5,5,1,5,5,5],
-    [2,5,5,5,5,5,-1],
+    [2,5,5,5,5,5,9],
     [5,5,5,5,5,5,5],
-    [5,5,-1,5,-1,5,5]
+    [5,5,9,5,9,5,5]
 ];
 
 let CellType = {"BLOCK":-1,
@@ -194,10 +194,9 @@ LightsUp.checkMissingLights = function(row, col, count){
 
 LightsUp.printBoard = function(){
     for(let i = 0; i < LightsUp.board.length; i++){
-        for(let j = 0; j < LightsUp.board[0].length; j++)
-            console.log(LightsUp.board[i][j]);
-        console.log("\n");
+        console.log(LightsUp.board[i].toString())
     }
+    console.log("\n");
 };
 
 LightsUp.preProcess = function (){
@@ -220,7 +219,7 @@ LightsUp.preProcess = function (){
                     let valid_directions = LightsUp.checkValidDirections(row, col);
                     let missing_lights = LightsUp.checkMissingLights(row, col, round);
 
-                    if (valid_directions.length == missing_lights){
+                    if (missing_lights > 0 && valid_directions.length == missing_lights){
                         LightsUp.fill_board(row, col, valid_directions, CellType.LIGHT_BULB);
                         // let invalid_directions = AllDirections.filter(x => !valid_directions.includes(x));
                         // LightsUp.fill_board(row, col, invalid_directions, CellType.INVALID);
