@@ -192,12 +192,20 @@ LightsUp.checkMissingLights = function(row, col, count){
     return ans;
 };
 
+LightsUp.printBoard = function(){
+    for(let i = 0; i < LightsUp.board.length; i++){
+        for(let j = 0; j < LightsUp.board[0].length; j++)
+            console.log(LightsUp.board[i][j]);
+        console.log("\n");
+    }
+};
+
 LightsUp.preProcess = function (){
     let not_done = true;
     let round = 3;
     let directions = ['left', 'up', 'right', 'down'];
     for(let row = 0; row < LightsUp.board.length; row ++) {
-        for(let col = 0; col < LightsUp.board.length; col ++){
+        for(let col = 0; col < LightsUp.board[0].length; col ++){
             if (LightsUp.board[row][col] == CellType.ZERO_LIGHTS)
                 LightsUp.fill_board(row, col, directions, CellType.INVALID)
             else if (LightsUp.board[row][col] == CellType.FOUR_LIGHTS)
