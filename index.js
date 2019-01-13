@@ -2,7 +2,7 @@ var Kakuro = require("./Kakuro.js");
 var Genetics = require("./Genetics.js");
 var conf = require("./Configs.js");
 
-var individuos = new Array();
+var individuos = [];
 var generation = 0;
 var maxFitness = Number.MAX_SAFE_INTEGER;
 var lastFitness = Number.MAX_SAFE_INTEGER;

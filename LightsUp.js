@@ -194,9 +194,9 @@ LightsUp.checkMissingLights = function(row, col, count){
 
 LightsUp.printBoard = function(){
     for(let i = 0; i < LightsUp.board.length; i++){
+        let row = "";
         for(let j = 0; j < LightsUp.board[0].length; j++)
-            console.log(LightsUp.board[i][j]);
-        console.log("\n");
+            row += LightsUp.board[i][j];
     }
 };
 
