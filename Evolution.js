@@ -12,7 +12,14 @@ Evolution.initiate = function(genomeLength, generationSize){
 };
 
 Evolution.createIndividual = function(){
-
+    let individual = []
+    for(let i = 0; i < Evolution.genomeLength; i++){
+        if(Math.random() > 0.7)
+            individual.push(1);
+        else
+            individual.push(0);
+    }
+    Evolution.generation.push(individual);
 };
 
 Evolution.fitness = function(individual){
