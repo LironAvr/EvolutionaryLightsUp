@@ -11,17 +11,17 @@ htmlParser.parse(board_html, {
         if(name == 'src'){
             if(value == 'nd.gif')
                 board_array.push(CellType.NO_LIGHT);
-            if(value == 'li00.gif')
+            else if(value == 'li00.gif')
                 board_array.push(CellType.BLOCK);
-            if(value == 'li0.gif')
+            else if(value == 'li0.gif')
                 board_array.push(CellType.ZERO_LIGHTS);
-            if(value == 'li1.gif')
+            else if(value == 'li1.gif')
                 board_array.push(CellType.ONE_LIGHT);
-            if(value == 'li2.gif')
+            else if(value == 'li2.gif')
                 board_array.push(CellType.TWO_LIGHTS);
-            if(value == 'li3.gif')
+            else if(value == 'li3.gif')
                 board_array.push(CellType.THREE_LIGHTS);
-            if(value == 'li4.gif')
+            else if(value == 'li4.gif')
                 board_array.push(CellType.FOUR_LIGHTS);
         }
         //console.log(board_array);
