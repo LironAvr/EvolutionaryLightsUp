@@ -94,7 +94,7 @@ LightsUp.light = function(row, col) {
 };
 
 LightsUp.validateDirection = function(row, col, direction){
-    if (LightsUp.board[row][col] != CellType.LIGHT && LightsUp.board[row][col] != CellType.NO_LIGHT)
+    if (LightsUp.board[row][col] != CellType.NO_LIGHT)
         return false;
 
     switch(direction){
