@@ -204,7 +204,7 @@ LightsUp.preProcess = function (){
                 LightsUp.fill_board(row, col, directions, CellType.LIGHT_BULB);
         }}
 
-    while(not_done || round > 0){
+    while(/*not_done ||*/ round > 0){
         not_done = false;
         for(let row = 0; row < LightsUp.board.length; row ++) {
             for(let col = 0; col < LightsUp.board.length; col ++){
@@ -214,11 +214,12 @@ LightsUp.preProcess = function (){
 
                     if (valid_directions.length == missing_lights){
                         LightsUp.fill_board(row, col, valid_directions, CellType.LIGHT_BULB);
-                        let invalid_directions = AllDirections.filter(x => !valid_directions.includes(x));
-                        LightsUp.fill_board(row, col, invalid_directions, CellType.INVALID);
-                        not_done = true;
+                        // let invalid_directions = AllDirections.filter(x => !valid_directions.includes(x));
+                        // LightsUp.fill_board(row, col, invalid_directions, CellType.INVALID);
+                        // not_done = true;
                         row = -1;
                         col = -1;
+                        round = 3;
                         break;
                     }
                 }
