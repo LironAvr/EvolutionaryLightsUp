@@ -36,10 +36,10 @@ Evolution.mutate = function(individual){
 };
 
 Evolution.crossOver1 = function(ind1, ind2){
-    let a = ind1, b = ind2;
+    let a = ind1.genome, b = ind2.genome;
     if (Math.random() > 0.5){
-        a = ind2;
-        b = ind1;
+        a = ind2.genome;
+        b = ind1.genome;
     }
 
     for (let i = a.length / 2; i < a.length; i++)
@@ -49,7 +49,7 @@ Evolution.crossOver1 = function(ind1, ind2){
 };
 
 Evolution.crossOver2 = function(ind1, ind2){
-    let a = ind1, b = ind2;
+    let a = ind1.genome, b = ind2.genome;
     for(let i = 0; i < a.length; i++){
         if(Math.random() > 0.5)
             a[i] = b[i];
@@ -57,4 +57,7 @@ Evolution.crossOver2 = function(ind1, ind2){
     return a;
 };
 
-
+Evolution.initiate(10, 50);
+for (let i = 0; i < 2; i++)
+console.log(Evolution.generation[i].genome.toString());
+console.log(Evolution.crossOver1(Evolution.generation[0], Evolution.generation[1]));
