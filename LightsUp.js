@@ -227,7 +227,6 @@ LightsUp.preProcess = function (){
                         row = -1;
                         col = -1;
                         round = 3;
-                        this.printBoard();
                         break;
                     }
                 }
@@ -246,8 +245,19 @@ LightsUp.preProcess = function (){
     return missing_cells;
 };
 
-let missing = LightsUp.preProcess();
-console.log(missing);
+LightsUp.numOfUnlightCells = function(board){
+    var sum = 0;
+    for(var i = 0; i < board.length; i++){
+        for(var j = 0; j < board[i].length; j++){
+            if(board[i][j] == CellType.INVALID || board[i][j] == CellType.NO_LIGHT)
+                sum++;
+        }
+    }
+    return sum;
+};
+
+//LightsUp.missing = LightsUp.preProcess();
+//console.log(LightsUp.missing);
 
 module.exports = {
      LightsUp, CellType
