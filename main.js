@@ -1,15 +1,17 @@
 var lightsUpFile = require('./LightsUp.js');
 var conf = require('./Config.js');
+var Evolution = require('./Evolution.js');
 
 var CellType = lightsUpFile.CellType;
 var LightsUp = lightsUpFile.LightsUp;
 
-var individuos = [];
+var maxFitness = Number.MAX_SAFE_INTEGER;
+var lastFitness = Number.MAX_SAFE_INTEGER;
 
 LightsUp.printBoard();
 var missing_blocks = LightsUp.preProcess();
+Evolution.initiate(missing_blocks.length, conf.generation_size);
 
-for (var i = 0; i < conf.muestra; i++) {
-    individuos[i] = {};
-    individuos[i].genome = Genetics.getRandomGenome();
+while (maxFitness > 0){
+
 }

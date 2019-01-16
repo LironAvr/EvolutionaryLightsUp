@@ -1,3 +1,4 @@
+var LightsUp = require('./LightsUp.js').LightsUp;
 var Evolution = {};
 
 Evolution.generation = [];
@@ -23,6 +24,10 @@ Evolution.createIndividual = function(){
             individual.push(0);
     }
     return individual;
+};
+
+Evolution.calcGenerationFitness = function(){
+
 };
 
 Evolution.fitness = function(individual){
@@ -59,7 +64,8 @@ Evolution.crossOver2 = function(ind1, ind2){
     return a;
 };
 
-Evolution.initiate(10, 50);
-for (let i = 0; i < 2; i++)
-console.log(Evolution.generation[i].genome.toString());
-console.log(Evolution.crossOver2(Evolution.generation[0], Evolution.generation[1]));
+// Evolution.initiate(10, 50);
+// for (let i = 0; i < 2; i++)
+// console.log(Evolution.generation[i].genome.toString());
+// console.log(Evolution.crossOver1(Evolution.generation[0], Evolution.generation[1]));
+module.export = Evolution;
