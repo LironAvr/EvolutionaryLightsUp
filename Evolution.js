@@ -2,9 +2,11 @@ var Evolution = {};
 
 Evolution.generation = [];
 Evolution.genomeLength = 0;
+Evolution.generationSize = 0;
 
 
 Evolution.initiate = function(genomeLength, generationSize){
+    Evolution.generationSize = generationSize;
     Evolution.genomeLength = genomeLength;
     for(let i = 0; i < generationSize; i++){
         Evolution.generation[i] = {};
@@ -60,4 +62,4 @@ Evolution.crossOver2 = function(ind1, ind2){
 Evolution.initiate(10, 50);
 for (let i = 0; i < 2; i++)
 console.log(Evolution.generation[i].genome.toString());
-console.log(Evolution.crossOver1(Evolution.generation[0], Evolution.generation[1]));
+console.log(Evolution.crossOver2(Evolution.generation[0], Evolution.generation[1]));

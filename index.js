@@ -11,7 +11,7 @@ Kakuro.printMatrix();
 
 console.log("generando población inicial aleatoria (" + conf.muestra + " individuos)\n");
 
-for (var i = 0; i < conf.muestra; i++) {
+for (var i = 0; i < conf.generation_size; i++) {
     individuos[i] = {};
     individuos[i].genome = Genetics.getRandomGenome();
 }
@@ -37,13 +37,13 @@ while (maxFitness > 0) {
     
     individuos.length = Math.floor(conf.muestra * conf.porcentaje_ganador);
 
-    while (individuos.length < conf.muestra) {
+    while (individuos.length < conf.generation_size) {
         var hijo = {};
-        if(Math.random() > conf.probabilidad_mutacion){
+        if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * individuos.length);
             var y = Math.floor(Math.random() * individuos.length);
             hijo.genome = Genetics.crossoverGenomes(individuos[x].genome, individuos[y].genome);
-            if(Math.random() < conf.probabilidad_mutacion){
+            if(Math.random() < conf.mutation_probability){
                 hijo.genome = Genetics.mutateGenome(hijo.genome);
             }
         } else {
