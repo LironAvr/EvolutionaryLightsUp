@@ -4,9 +4,11 @@ var Evolution = require('./Evolution.js');
 
 var CellType = lightsUpFile.CellType;
 var LightsUp = lightsUpFile.LightsUp;
+var generationCounter = 0;
 
 var maxFitness = Number.MAX_SAFE_INTEGER;
 var lastFitness = Number.MAX_SAFE_INTEGER;
+
 console.log('initial board: ');
 LightsUp.printBoard();
 var missing_blocks = LightsUp.preProcess();
@@ -18,9 +20,39 @@ LightsUp.printBoard();
 
 while (maxFitness > 0){
     Evolution.calcGenerationFitness();
+    // Update max fitness
     Evolution.generation.sort((a, b) => (a.fitness - b.fitness));
     maxFitness = Evolution.generation[0].fitness;
-    console.log('after calc fitness');
-    LightsUp.printBoard();
+    // console.log('after calc fitness');
+    // LightsUp.printBoard();
 
+    if(maxFitness < lastFitness) {
+        console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
+        // Kakuro.printMatrixWithData(Kakuro.buildDataMatrix(individuos[0].genome));
+    } else {
+        process.stdout.write("Evaluation generation " + generationCounter);
+        process.stdout.cursorTo(0);
+    }
+
+    lastFitness = maxFitness;
+
+    Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue);
+
+    while (Evolution.generation.length < conf.generation_size) {
+        var hijo = {};
+        if(Math.random() > conf.mutation_probability){
+            var x = Math.floor(Math.random() * Evolution.generation.length);
+            var y = Math.floor(Math.random() * Evolution.generation.length);
+            hijo = Evolution.crossOver1(Evolution.generation[x], Evolution.generation[y]);
+            if(Math.random() < conf.mutation_probability){
+                hijo = Evolution.mutate(hijo);
+            }
+        } else {
+            var x = Math.floor(Math.random() * Evolution.generation.length);
+            hijo = Evolution.mutate(Evolution.generation[x]);
+        }
+        Evolution.generation.push(hijo);
+    }
+
+    generationCounter++;
 }
