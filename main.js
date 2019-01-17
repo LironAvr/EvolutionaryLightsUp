@@ -43,11 +43,7 @@ while (maxFitness > 0){
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
-            if(Evolution.generation[x] === undefined || undefined === Evolution.generation[y])
-                console.log('errrroorrr');
             hijo.genome = Evolution.crossOver1(Evolution.generation[x], Evolution.generation[y]);
-            if(hijo === undefined)
-                console.log('errrroorrr');
             if(Math.random() < conf.mutation_probability){
                 Evolution.mutate(hijo);
             }
