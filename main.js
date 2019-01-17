@@ -43,13 +43,17 @@ while (maxFitness > 0){
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
-            hijo = Evolution.crossOver1(Evolution.generation[x], Evolution.generation[y]);
+            if(Evolution.generation[x] === undefined || undefined === Evolution.generation[y])
+                console.log('errrroorrr');
+            hijo.genome = Evolution.crossOver1(Evolution.generation[x], Evolution.generation[y]);
+            if(hijo === undefined)
+                console.log('errrroorrr');
             if(Math.random() < conf.mutation_probability){
-                hijo = Evolution.mutate(hijo);
+                Evolution.mutate(hijo);
             }
         } else {
             var x = Math.floor(Math.random() * Evolution.generation.length);
-            hijo = Evolution.mutate(Evolution.generation[x]);
+            Evolution.mutate(Evolution.generation[x]);
         }
         Evolution.generation.push(hijo);
     }

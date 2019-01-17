@@ -39,7 +39,7 @@ Evolution.fitness = function(individual){
 };
 
 Evolution.mutate = function(individual){
-    let location = Math.floor(Math.random() * Evolution.genomeLength);
+    let location = Math.floor(Math.random() * individual.genome.length);
     if(individual.genome[location] == 1)
         individual.genome[location] = 0;
     else
