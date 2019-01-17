@@ -10,6 +10,8 @@ LightsUp.board = [
     [5,5,-1,5,-1,5,5]
 ];
 
+LightsUp.missing = {};
+
 let CellType = {"BLOCK":-1,
     "ZERO_LIGHTS":0,
     "ONE_LIGHT":1,
@@ -30,7 +32,7 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 if(col > 0 && LightsUp.board[row][col - 1] != CellType.LIGHT_BULB){
                     LightsUp.board[row][col - 1] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row, col-1);
+                        LightsUp.light(row, col-1, LightsUp.board);
                 }
                 break;
 
@@ -38,7 +40,7 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 if(row > 0 && LightsUp.board[row - 1][col] != CellType.LIGHT_BULB){
                     LightsUp.board[row - 1][col] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row-1, col);
+                        LightsUp.light(row-1, col, LightsUp.board);
                 }
                 break;
 
@@ -46,7 +48,7 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 if(col + 1 < LightsUp.board[0].length && LightsUp.board[row][col + 1] != CellType.LIGHT_BULB){
                     LightsUp.board[row][col + 1] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row, col+1);
+                        LightsUp.light(row, col+1, LightsUp.board);
                 }
                 break;
 
@@ -55,44 +57,44 @@ LightsUp.fill_board = function(row, col, directions, fill_value){
                 {
                     LightsUp.board[row + 1][col] = fill_value;
                     if (fill_value == CellType.LIGHT_BULB)
-                        LightsUp.light(row+1, col);
+                        LightsUp.light(row+1, col, LightsUp.board);
                 }
                 break;
         }
     })
 };
 
-function lightable(row, col){
-    return ((LightsUp.board[row][col] == CellType.LIGHT) || (LightsUp.board[row][col] == CellType.NO_LIGHT) || (LightsUp.board[row][col] == CellType.INVALID));
+function lightable(row, col, board){
+    return ((board[row][col] == CellType.LIGHT) || (board[row][col] == CellType.NO_LIGHT) || (board[row][col] == CellType.INVALID));
 }
 
-LightsUp.light = function(row, col) {
+LightsUp.light = function(row, col, board) {
 
     //Light Up
     let i = row - 1;
-    while (i >= 0 && lightable(i, col)){
-        LightsUp.board[i][col] = CellType.LIGHT;
+    while (i >= 0 && lightable(i, col, board)){
+        board[i][col] = CellType.LIGHT;
         i--;
     }
 
     //Light Down
     i = row + 1;
-    while (i < LightsUp.board.length && lightable(i, col)){
-        LightsUp.board[i][col] = CellType.LIGHT;
+    while (i < board.length && lightable(i, col, board)){
+        board[i][col] = CellType.LIGHT;
         i++;
     }
 
     //Light Left
     i = col - 1;
-        while (i >= 0 && lightable(row, i)){
-        LightsUp.board[row][i] = CellType.LIGHT;
+        while (i >= 0 && lightable(row, i, board)){
+        board[row][i] = CellType.LIGHT;
         i--;
     }
 
     //Light Right
     i = col + 1;
-    while (i < LightsUp.board[0].length && lightable(row, i)){
-        LightsUp.board[row][i] = CellType.LIGHT;
+    while (i < board[0].length && lightable(row, i, board)){
+        board[row][i] = CellType.LIGHT;
         i++;
     }
 };
@@ -242,18 +244,28 @@ LightsUp.preProcess = function (){
                 missing_cells.push({row:row, col:col})
         }
     }
+    LightsUp.missing = missing_cells;
     return missing_cells;
 };
 
 LightsUp.numOfUnlightCells = function(board){
     var sum = 0;
     for(var i = 0; i < board.length; i++){
-        for(var j = 0; j < board[i].length; j++){
+        for(var j = 0; j < board.length; j++){
             if(board[i][j] == CellType.INVALID || board[i][j] == CellType.NO_LIGHT)
                 sum++;
         }
     }
     return sum;
+};
+
+LightsUp.assignmentLightsOnBoard = function(board, genome){
+    for (var i = 0; i < genome.length; i++){
+        if(genome[i] == 1){
+            board[this.missing[i].row][this.missing[i].col] = CellType.LIGHT_BULB;
+            this.light(this.missing[i].row, this.missing[i].col, board);
+        }
+    }
 };
 
 //LightsUp.missing = LightsUp.preProcess();

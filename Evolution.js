@@ -16,7 +16,7 @@ Evolution.initiate = function(genomeLength, generationSize){
 };
 
 Evolution.createIndividual = function(){
-    let individual = []
+    let individual = [];
     for(let i = 0; i < Evolution.genomeLength; i++){
         if(Math.random() > 0.7)
             individual.push(1);
@@ -27,11 +27,15 @@ Evolution.createIndividual = function(){
 };
 
 Evolution.calcGenerationFitness = function(){
-
+    for(var i = 0; i < this.generationSize; i++){
+        this.fitness(Evolution.generation[i]);
+    }
 };
 
 Evolution.fitness = function(individual){
-
+    var tempBoard = LightsUp.board.map(x => Object.assign({}, x));
+    LightsUp.assignmentLightsOnBoard(tempBoard, individual.genome);
+    individual.fitness = LightsUp.numOfUnlightCells(tempBoard) * 10;
 };
 
 Evolution.mutate = function(individual){
@@ -68,4 +72,4 @@ Evolution.crossOver2 = function(ind1, ind2){
 // for (let i = 0; i < 2; i++)
 // console.log(Evolution.generation[i].genome.toString());
 // console.log(Evolution.crossOver1(Evolution.generation[0], Evolution.generation[1]));
-module.export = Evolution;
+module.exports = Evolution;
