@@ -30,8 +30,8 @@ while (maxFitness > 0){
         console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
         // Kakuro.printMatrixWithData(Kakuro.buildDataMatrix(individuos[0].genome));
     } else {
-        process.stdout.write("Evaluation generation " + generationCounter);
-        process.stdout.cursorTo(0);
+        console.log("Evaluation generation " + generationCounter);
+        // process.stdout.cursorTo(0);
     }
 
     lastFitness = maxFitness;
@@ -53,7 +53,8 @@ while (maxFitness > 0){
             }
         } else {
             var x = Math.floor(Math.random() * Evolution.generation.length);
-            Evolution.mutate(Evolution.generation[x]);
+            hijo.genome = Evolution.generation[x];
+            Evolution.mutate(hijo);
         }
         Evolution.generation.push(hijo);
     }
