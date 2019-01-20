@@ -2,7 +2,7 @@ var Configs = {};
 
 Configs.mutation_probability = 0.3;
 
-Configs.generation_size = 50;
+Configs.muestra = 50;
 
 //Porcentaje de individuos que son seleccionados para sobrevivir a la
 //siguiente generación

@@ -1,6 +1,7 @@
 var lightsUpFile = require('./LightsUp.js');
 var conf = require('./Config.js');
 var Evolution = require('./Evolution.js');
+//var ChartjsNode = require('chartjs-node');
 
 var CellType = lightsUpFile.CellType;
 var LightsUp = lightsUpFile.LightsUp;
@@ -17,6 +18,7 @@ LightsUp.printBoard();
 Evolution.initiate(missing_blocks.length, conf.generation_size);
 console.log('after initial generation:');
 LightsUp.printBoard();
+console.log('Genome length : '+ LightsUp.missing.length);
 
 while (maxFitness > 0){
     Evolution.calcGenerationFitness();
@@ -26,13 +28,14 @@ while (maxFitness > 0){
     // console.log('after calc fitness');
     // LightsUp.printBoard();
 
-    if(maxFitness < lastFitness) {
-        console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
-        // Kakuro.printMatrixWithData(Kakuro.buildDataMatrix(individuos[0].genome));
-    } else {
-        console.log("Evaluation generation " + generationCounter);
-        // process.stdout.cursorTo(0);
-    }
+    // if(maxFitness < lastFitness) {
+    //     console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
+    //     // Kakuro.printMatrixWithData(Kakuro.buildDataMatrix(individuos[0].genome));
+    // } else {
+    //     console.log("Evaluation generation " + generationCounter);
+    //     // process.stdout.cursorTo(0);
+    // }
+    console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
 
     lastFitness = maxFitness;
 
@@ -43,7 +46,7 @@ while (maxFitness > 0){
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.crossOver1(Evolution.generation[x], Evolution.generation[y]);
+            hijo.genome = Evolution.crossOver2(Evolution.generation[x], Evolution.generation[y]);
             if(Math.random() < conf.mutation_probability){
                 Evolution.mutate(hijo);
             }

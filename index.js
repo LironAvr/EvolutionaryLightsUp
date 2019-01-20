@@ -37,7 +37,7 @@ while (maxFitness > 0) {
     
     individuos.length = Math.floor(conf.muestra * conf.porcentaje_ganador);
 
-    while (individuos.length < conf.generation_size) {
+    while (individuos.length < conf.muestra) {
         var hijo = {};
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * individuos.length);
