@@ -68,6 +68,14 @@ Evolution.crossOver2 = function(ind1, ind2){
     return a;
 };
 
+Evolution.parentSelection = function(){
+
+};
+
+Evolution.survivorSelection = function(){
+
+};
+
 // Evolution.initiate(10, 50);
 // for (let i = 0; i < 2; i++)
 // console.log(Evolution.generation[i].genome.toString());
