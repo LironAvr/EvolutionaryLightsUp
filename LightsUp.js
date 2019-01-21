@@ -197,12 +197,103 @@ LightsUp.checkMissingLights = function(row, col, count){
     return ans;
 };
 
-LightsUp.printBoard = function(){
-    for(let i = 0; i < LightsUp.board.length; i++){
-        console.log(LightsUp.board[i].toString())
-    }
-    console.log("\n");
-};
+//LightsUp.printBoard = function(){
+//    for(let i = 0; i < LightsUp.board.length; i++){
+//        console.log(LightsUp.board[i].toString())
+//    }
+//    console.log("\n");
+//};
+
+LightsUp.printBoard = function (board) {
+    board.forEach(function (line) {
+        let count = 0;
+        let string = "";
+        line.forEach(function (cell) {
+            switch (cell) {
+                case CellType.LIGHT_BULB:
+                    string += "| ! ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.LIGHT:
+                    string += "| ◼ ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.BLOCK:
+                    string += "| * ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.ZERO_LIGHTS:
+                    string += "| 0 ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.ONE_LIGHT:
+                    string += "| 1 ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.TWO_LIGHTS:
+                    string += "| 2 ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.THREE_LIGHTS:
+                    string += "| 3 ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                case CellType.FOUR_LIGHTS:
+                    string += "| 4 ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+                    break;
+
+                default:
+                    string += "| ◻ ";
+                    count++;
+                    if (count == board.length - 1) {
+                        console.log(string + "|")
+                        count = 0;
+                    }
+
+            }
+        });
+    });
+}
 
 LightsUp.preProcess = function (){
     let not_done = true;
@@ -273,7 +364,8 @@ LightsUp.assignmentLightsOnBoard = function(board, genome){
 
 //LightsUp.missing = LightsUp.preProcess();
 //console.log(LightsUp.missing);
-
+LightsUp.preProcess();
+LightsUp.printBoard(LightsUp.board);
 module.exports = {
      LightsUp, CellType
 };
