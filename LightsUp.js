@@ -213,7 +213,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.LIGHT_BULB:
                     string += "| ! ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -222,7 +222,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.LIGHT:
                     string += "| ◼ ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -231,7 +231,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.BLOCK:
                     string += "| * ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -240,7 +240,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.ZERO_LIGHTS:
                     string += "| 0 ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -249,7 +249,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.ONE_LIGHT:
                     string += "| 1 ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -258,7 +258,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.TWO_LIGHTS:
                     string += "| 2 ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -267,7 +267,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.THREE_LIGHTS:
                     string += "| 3 ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -276,7 +276,7 @@ LightsUp.printBoard = function (board) {
                 case CellType.FOUR_LIGHTS:
                     string += "| 4 ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -285,7 +285,7 @@ LightsUp.printBoard = function (board) {
                 default:
                     string += "| ◻ ";
                     count++;
-                    if (count == board.length - 1) {
+                    if (count == board.length) {
                         console.log(string + "|")
                         count = 0;
                     }
@@ -364,8 +364,8 @@ LightsUp.assignmentLightsOnBoard = function(board, genome){
 
 //LightsUp.missing = LightsUp.preProcess();
 //console.log(LightsUp.missing);
-//LightsUp.preProcess();
-//LightsUp.printBoard(LightsUp.board);
+LightsUp.preProcess();
+LightsUp.printBoard(LightsUp.board);
 
 module.exports = {
      LightsUp, CellType
