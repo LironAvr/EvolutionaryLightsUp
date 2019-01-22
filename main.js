@@ -56,7 +56,7 @@ while (maxFitness > 0 && generationCounter < 101){
 }
 
 
-fs.writeFile('./FitnessData/formList.txt', fitnessData, 'utf8', function (err) {
+fs.writeFile('./FitnessData/formList-'+LightsUp.board.length+'.txt', fitnessData, 'utf8', function (err) {
   if (err) {
     console.log('Some error occured - file either not saved or corrupted file saved.');
   } else{
