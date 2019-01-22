@@ -47,10 +47,10 @@ Evolution.mutate = function(individual){
 };
 
 Evolution.crossOver1 = function(ind1, ind2){
-    var a = ind1.genome, b = ind2.genome;
+    var a = ind1.genome.slice(), b = ind2.genome.slice();
     if (Math.random() > 0.5){
-        a = ind2.genome;
-        b = ind1.genome;
+        a = ind2.genome.slice();
+        b = ind1.genome.slice();
     }
 
     for (var i = Math.floor(a.length / 2); i < a.length; i++)
@@ -60,7 +60,7 @@ Evolution.crossOver1 = function(ind1, ind2){
 };
 
 Evolution.crossOver2 = function(ind1, ind2){
-    var a = ind1.genome, b = ind2.genome;
+    var a = ind1.genome.slice(), b = ind2.genome.slice();
     for(var i = 0; i < a.length; i++){
         if(Math.random() > 0.5)
             a[i] = b[i];
@@ -71,11 +71,11 @@ Evolution.crossOver2 = function(ind1, ind2){
 Evolution.crossOver3 = function (genA, genB) {
     var a, b;
     if (Math.random() > 0.5) {
-        a = genA;
-        b = genB;
+        a = genA.genome.slice();
+        b = genB.genome.slice();
     } else {
-        a = genB;
-        b = genA;
+        a = genB.genome.slice();
+        b = genA.genome.slice();
     }
     for (var i = 0; i < a.length; i++) {
         if (Math.random() > 0.5) {
