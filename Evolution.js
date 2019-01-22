@@ -35,7 +35,7 @@ Evolution.calcGenerationFitness = function(){
 Evolution.fitness = function(individual){
     var tempBoard = LightsUp.board.map(x => Object.assign({}, x));
     LightsUp.assignmentLightsOnBoard(tempBoard, individual.genome);
-    individual.fitness = LightsUp.numOfUnlightCells(tempBoard) * 10;
+    individual.fitness = LightsUp.numOfUnlightCells(tempBoard) * 10;// + (LightsUp.misplacedLights(tempBoard) * 5);
 };
 
 Evolution.mutate = function(individual){
@@ -64,6 +64,23 @@ Evolution.crossOver2 = function(ind1, ind2){
     for(var i = 0; i < a.length; i++){
         if(Math.random() > 0.5)
             a[i] = b[i];
+    }
+    return a;
+};
+
+Evolution.crossOver3 = function (genA, genB) {
+    var a, b;
+    if (Math.random() > 0.5) {
+        a = genA;
+        b = genB;
+    } else {
+        a = genB;
+        b = genA;
+    }
+    for (var i = 0; i < a.length; i++) {
+        if (Math.random() > 0.5) {
+            a[i] = b[i];
+        }
     }
     return a;
 };

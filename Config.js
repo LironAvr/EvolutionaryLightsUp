@@ -2,11 +2,13 @@
 
 var Configs = {};
 
-Configs.mutation_probability = 0.3;
+Configs.mutation_probability = 0.4;
 
 Configs.generation_size = 50;
 
 //percent of generation to stay in the next generation
-Configs.partGenerationToContinue = 0.3;
+Configs.partGenerationToContinue = 0.30;
+
+Configs.number_of_generations = 1000;
 
 module.exports  = Configs;

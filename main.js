@@ -22,34 +22,50 @@ console.log('after initial generation:');
 LightsUp.printBoard(LightsUp.board);
 console.log('Genome length : '+ LightsUp.missing.length);
 
-while (maxFitness > 0 && generationCounter < 101){
+while (maxFitness > 0 ){//&& generationCounter < conf.number_of_generations){
     Evolution.calcGenerationFitness();
     // Update max fitness
     Evolution.generation.sort((a, b) => (a.fitness - b.fitness));
     maxFitness = Evolution.generation[0].fitness;
     fitnessData.push(maxFitness);
 
-    console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
+    console.log("Generation: " + generationCounter + " - Best individual: " + maxFitness);
 
     lastFitness = maxFitness;
 
-    Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue);
+    //Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue)//
+    //while (Evolution.generation.length < conf.generation_size) {
+    //    var hijo = {};
+    //    if(true){//Math.random() > conf.mutation_probability){
+    //        var x = Math.floor(Math.random() * Evolution.generation.length);
+    //        var y = Math.floor(Math.random() * Evolution.generation.length);
+    //        hijo.genome = Evolution.crossOver1(Evolution.generation[x], Evolution.generation[y]);
+    //        if(Math.random() < conf.mutation_probability){
+    //            Evolution.mutate(hijo);
+    //        }
+    //    } else {
+    //        var x = Math.floor(Math.random() * Evolution.generation.length);
+    //        hijo.genome = Evolution.generation[x];
+    //        Evolution.mutate(hijo);
+    //    }
+    //    Evolution.generation.push(hijo);
+    //}
 
-    while (Evolution.generation.length < conf.generation_size) {
-        var hijo = {};
-        if(Math.random() > conf.mutation_probability){
-            var x = Math.floor(Math.random() * Evolution.generation.length);
-            var y = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.crossOver2(Evolution.generation[x], Evolution.generation[y]);
-            if(Math.random() < conf.mutation_probability){
-                Evolution.mutate(hijo);
-            }
-        } else {
-            var x = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.generation[x];
-            Evolution.mutate(hijo);
-        }
-        Evolution.generation.push(hijo);
+    let newGeneration = [];
+    for(let i = 0; i < conf.generation_size * conf.partGenerationToContinue; i++){
+        if(Math.random() < conf.mutation_probability)
+            Evolution.mutate(Evolution.generation[i]);
+        newGeneration.push(Evolution.generation[i]);
+    }
+
+    for(let i = newGeneration.length; i < Evolution.generationSize; i++){
+        var ind1 = Math.floor(Math.random() * Evolution.generation.length);
+        var ind2 = Math.floor(Math.random() * Evolution.generation.length);
+        var newIndividual = {};
+        newIndividual.genome = Evolution.crossOver1(Evolution.generation[ind1], Evolution.generation[ind2]);
+        if(Math.random() < conf.mutation_probability)
+            Evolution.mutate(newIndividual);
+        newGeneration.push(newIndividual)
     }
 
     generationCounter++;

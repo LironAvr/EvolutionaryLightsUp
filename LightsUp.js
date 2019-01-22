@@ -102,43 +102,43 @@ LightsUp.light = function(row, col, board) {
     }
 };
 
-LightsUp.validateDirection = function(row, col, direction){
-    if (LightsUp.board[row][col] != CellType.NO_LIGHT)
+LightsUp.validateDirection = function(row, col, direction, board){
+    if (board[row][col] != CellType.NO_LIGHT)
         return false;
 
     switch(direction){
         case "up":
             for(let current = row - 1; current >= 0; current--){
-                if(LightsUp.board[current][col] == CellType.LIGHT_BULB)
+                if(board[current][col] == CellType.LIGHT_BULB)
                     return false;
-                else if(LightsUp.board[current][col] < CellType.NO_LIGHT)
+                else if(board[current][col] < CellType.NO_LIGHT)
                     break;
             }
             return true;
 
         case "down":
-            for(let current = row + 1; current < LightsUp.board.length; current++){
-                if(LightsUp.board[current][col] == CellType.LIGHT_BULB)
+            for(let current = row + 1; current < board.length; current++){
+                if(board[current][col] == CellType.LIGHT_BULB)
                     return false;
-                else if(LightsUp.board[current][col] < CellType.NO_LIGHT)
+                else if(board[current][col] < CellType.NO_LIGHT)
                     break;
             }
             return true;
 
         case "left":
             for(let current = col - 1; current >= 0; current--){
-                if(LightsUp.board[row][current] == CellType.LIGHT_BULB)
+                if(board[row][current] == CellType.LIGHT_BULB)
                     return false;
-                else if(LightsUp.board[row][current] < CellType.NO_LIGHT)
+                else if(board[row][current] < CellType.NO_LIGHT)
                     break;
             }
             return true;
 
         case "right":
-            for(let current = col + 1; current < LightsUp.board[0].length; current++){
-                if(LightsUp.board[row][current] == CellType.LIGHT_BULB)
+            for(let current = col + 1; current < board[0].length; current++){
+                if(board[row][current] == CellType.LIGHT_BULB)
                     return false;
-                else if(LightsUp.board[row][current] < CellType.NO_LIGHT)
+                else if(board[row][current] < CellType.NO_LIGHT)
                     break;
             }
             return true;
@@ -151,48 +151,48 @@ LightsUp.checkValidDirections = function(row, col){
     let current = row - 1;
 
     //Up
-    if (current >= 0 && LightsUp.validateDirection(current, col, "up")){
+    if (current >= 0 && LightsUp.validateDirection(current, col, "up", LightsUp.board)){
         valid_directions.push("up");
     }
 
     //Down
     current = row + 1;
-    if (current < LightsUp.board.length && LightsUp.validateDirection(current, col, "down")){
+    if (current < LightsUp.board.length && LightsUp.validateDirection(current, col, "down", LightsUp.board)){
         valid_directions.push("down");
     }
 
     //Left
     current = col - 1;
-    if (current >= 0 && LightsUp.validateDirection(row, current, "left")){
+    if (current >= 0 && LightsUp.validateDirection(row, current, "left", LightsUp.board)){
         valid_directions.push("left");
     }
 
     //Right
         current = col + 1;
-    if (current < LightsUp.board[0].length && LightsUp.validateDirection(row, current, "right")){
+    if (current < LightsUp.board[0].length && LightsUp.validateDirection(row, current, "right", LightsUp.board)){
         valid_directions.push("right");
     }
 
     return valid_directions;
 };
 
-LightsUp.checkMissingLights = function(row, col, count){
+LightsUp.checkMissingLights = function(row, col, count, board){
     let ans = count;
 
     //up
-    if (row > 0 && LightsUp.board[row - 1][col] == CellType.LIGHT_BULB)
+    if (row > 0 && board[row - 1][col] == CellType.LIGHT_BULB)
         ans--;
 
     //down
-    if (row + 1 < LightsUp.board.length && LightsUp.board[row + 1][col] == CellType.LIGHT_BULB)
+    if (row + 1 < board.length && board[row + 1][col] == CellType.LIGHT_BULB)
         ans--;
 
     //left
-    if (col > 0 && LightsUp.board[row][col - 1] == CellType.LIGHT_BULB)
+    if (col > 0 && board[row][col - 1] == CellType.LIGHT_BULB)
         ans--;
 
     //right
-    if (col + 1 < LightsUp.board[0].length && LightsUp.board[row][col + 1] == CellType.LIGHT_BULB)
+    if (col + 1 < board[0].length && board[row][col + 1] == CellType.LIGHT_BULB)
         ans--;
     return ans;
 };
@@ -313,7 +313,7 @@ LightsUp.preProcess = function (){
             for(let col = 0; col < LightsUp.board.length; col ++){
                 if (LightsUp.board[row][col] == round) {
                     let valid_directions = LightsUp.checkValidDirections(row, col);
-                    let missing_lights = LightsUp.checkMissingLights(row, col, round);
+                    let missing_lights = LightsUp.checkMissingLights(row, col, round, LightsUp.board);
 
                     if (missing_lights > 0 && valid_directions.length == missing_lights){
                         LightsUp.fill_board(row, col, valid_directions, CellType.LIGHT_BULB);
@@ -360,6 +360,38 @@ LightsUp.assignmentLightsOnBoard = function(board, genome){
             this.light(this.missing[i].row, this.missing[i].col, board);
         }
     }
+};
+
+LightsUp.misplacedLights = function(board){
+    //LightsUp.printBoard(board);
+    let errors = 0;
+    for(let i = 0; i < board.length; i++){
+        for(let k = 0; k < board.length; k++){
+            //If its a number block
+            if(board[i][k] >= 0 && board[i][k] < 5){
+                errors += Math.abs(LightsUp.checkMissingLights(i, k, board[i][k], board));
+            }
+            else if(board[i][k] == CellType.LIGHT_BULB){
+                if(i > 0 && !LightsUp.validateDirection(i, k, "up", board)){
+                    errors+= 1;
+                }
+
+                if(i < board.length - 1 && !LightsUp.validateDirection(i, k, "down", board)){
+                    errors+= 1;
+                }
+
+                if(k > 0 && LightsUp.validateDirection(i, k ,"left", board)){
+                    errors+= 1;
+                }
+
+                if(k < board[0].length - 1 && LightsUp.validateDirection(i, k, "right", board)){
+                    errors+= 1;
+                }
+            }
+        }
+    }
+    //console.log("Errors: " + errors);
+    return errors;
 };
 
 //LightsUp.missing = LightsUp.preProcess();
