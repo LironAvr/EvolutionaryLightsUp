@@ -364,8 +364,8 @@ LightsUp.assignmentLightsOnBoard = function(board, genome){
 
 //LightsUp.missing = LightsUp.preProcess();
 //console.log(LightsUp.missing);
-LightsUp.preProcess();
-LightsUp.printBoard(LightsUp.board);
+// LightsUp.preProcess();
+// LightsUp.printBoard(LightsUp.board);
 
 module.exports = {
      LightsUp, CellType

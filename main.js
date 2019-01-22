@@ -1,7 +1,6 @@
 var lightsUpFile = require('./LightsUp.js');
 var conf = require('./Config.js');
 var Evolution = require('./Evolution.js');
-//var ChartjsNode = require('chartjs-node');
 
 var CellType = lightsUpFile.CellType;
 var LightsUp = lightsUpFile.LightsUp;
@@ -10,31 +9,26 @@ var generationCounter = 0;
 var maxFitness = Number.MAX_SAFE_INTEGER;
 var lastFitness = Number.MAX_SAFE_INTEGER;
 
+var fitnessData = [];
+var fs = require('fs');
+
 console.log('initial board: ');
-LightsUp.printBoard();
+LightsUp.printBoard(LightsUp.board);
 var missing_blocks = LightsUp.preProcess();
 console.log('after preprocess:');
-LightsUp.printBoard();
+LightsUp.printBoard(LightsUp.board);
 Evolution.initiate(missing_blocks.length, conf.generation_size);
 console.log('after initial generation:');
-LightsUp.printBoard();
+LightsUp.printBoard(LightsUp.board);
 console.log('Genome length : '+ LightsUp.missing.length);
 
-while (maxFitness > 0){
+while (maxFitness > 0 && generationCounter < 101){
     Evolution.calcGenerationFitness();
     // Update max fitness
     Evolution.generation.sort((a, b) => (a.fitness - b.fitness));
     maxFitness = Evolution.generation[0].fitness;
-    // console.log('after calc fitness');
-    // LightsUp.printBoard();
+    fitnessData.push(maxFitness);
 
-    // if(maxFitness < lastFitness) {
-    //     console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
-    //     // Kakuro.printMatrixWithData(Kakuro.buildDataMatrix(individuos[0].genome));
-    // } else {
-    //     console.log("Evaluation generation " + generationCounter);
-    //     // process.stdout.cursorTo(0);
-    // }
     console.log("Generation: " + generationCounter + " - Mejor individual: " + maxFitness);
 
     lastFitness = maxFitness;
@@ -60,3 +54,12 @@ while (maxFitness > 0){
 
     generationCounter++;
 }
+
+
+fs.writeFile('./FitnessData/formList.txt', fitnessData, 'utf8', function (err) {
+  if (err) {
+    console.log('Some error occured - file either not saved or corrupted file saved.');
+  } else{
+    console.log('It\'s saved!');
+  }
+});
