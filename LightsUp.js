@@ -293,7 +293,7 @@ LightsUp.printBoard = function (board) {
             }
         });
     });
-}
+};
 
 LightsUp.preProcess = function (){
     let not_done = true;
