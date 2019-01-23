@@ -5,6 +5,7 @@ var Evolution = require('./Evolution.js');
 var CellType = lightsUpFile.CellType;
 var LightsUp = lightsUpFile.LightsUp;
 var generationCounter = 0;
+var no_change_in_fitness = 0;
 
 var maxFitness = Number.MAX_SAFE_INTEGER;
 var lastFitness = Number.MAX_SAFE_INTEGER;
@@ -22,10 +23,20 @@ console.log('after initial generation:');
 LightsUp.printBoard(LightsUp.board);
 console.log('Genome length : '+ LightsUp.missing.length);
 
-while (maxFitness > 0 ){//&& generationCounter < conf.number_of_generations){
+while (maxFitness > 0 && generationCounter < conf.number_of_generations){
     Evolution.calcGenerationFitness();
     // Update max fitness
     Evolution.generation.sort((a, b) => (a.fitness - b.fitness));
+
+    //if (maxFitness == Evolution.generation[0].fitness){
+    //    no_change_in_fitness++;
+    //    if (no_change_in_fitness == 5){
+    //        no_change_in_fitness = 0;
+    //    }
+    //}
+    //else{
+    //   maxFitness = Evolution.generation[0].fitness;
+    //}
     maxFitness = Evolution.generation[0].fitness;
     fitnessData.push(maxFitness);
 
@@ -36,7 +47,8 @@ while (maxFitness > 0 ){//&& generationCounter < conf.number_of_generations){
     Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue)//
     while (Evolution.generation.length < conf.generation_size) {
         var hijo = {};
-        if(true){//Math.random() > conf.mutation_probability){
+
+        if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
             hijo.genome = Evolution.crossOver3(Evolution.generation[x], Evolution.generation[y]);
@@ -45,8 +57,9 @@ while (maxFitness > 0 ){//&& generationCounter < conf.number_of_generations){
             }
         } else {
             var x = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.generation[x];
-            Evolution.mutate(hijo);
+            hijo.genome = Evolution.generation[x].genome.slice();
+            Evolution.mutate2(hijo);
+            //hijo.genome = Evolution.createIndividual();
         }
         Evolution.generation.push(hijo);
     }

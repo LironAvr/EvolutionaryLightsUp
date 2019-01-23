@@ -46,6 +46,17 @@ Evolution.mutate = function(individual){
         individual.genome[location] = 1;
 };
 
+Evolution.mutate2 = function(individual){
+    for(let i = 0; i < individual.genome.length; i++){
+        if(Math.random() < 0.5){
+            if(individual.genome[i] == 1)
+                individual.genome[i] = 0;
+            else
+                individual.genome[i] = 1;
+        }
+    }
+};
+
 Evolution.crossOver1 = function(ind1, ind2){
     var a = ind1.genome.slice(), b = ind2.genome.slice();
     if (Math.random() > 0.5){
