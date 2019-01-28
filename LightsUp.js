@@ -192,7 +192,7 @@ LightsUp.checkMissingLights = function(row, col, count, board){
         ans--;
 
     //right
-    if (col + 1 < board[0].length && board[row][col + 1] == CellType.LIGHT_BULB)
+    if (col + 1 < board.length && board[row][col + 1] == CellType.LIGHT_BULB)
         ans--;
     return ans;
 };
@@ -482,8 +482,6 @@ LightsUp.lightsSatisfaction = function(board){
 };
 
 LightsUp.getCollisions = function(board) {
-    console.log("calc collisions :");
-    LightsUp.printBoard(board);
     var collision = 0;
     for(let i = 0; i < LightsUp.missing.length; i++){
         var firstRow = LightsUp.missing[i].row;
@@ -525,7 +523,6 @@ LightsUp.getCollisions = function(board) {
         }
     }
     collision = collision / 2;
-    console.log("num collisions :"+collision);
     return collision ;
 };
 
@@ -544,11 +541,6 @@ function checkColCollisions(lowerRow, higherRow, col, board){
     }
     return true;
 }
-
-//LightsUp.missing = LightsUp.preProcess();
-//console.log(LightsUp.missing);
-// LightsUp.preProcess();
-// LightsUp.printBoard(LightsUp.board);
 
 module.exports = {
      LightsUp, CellType

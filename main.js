@@ -45,14 +45,14 @@ while (maxFitness > 0 && generationCounter < conf.number_of_generations){
 
     lastFitness = maxFitness;
 
-    Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue)//
+    Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue);
     while (Evolution.generation.length < conf.generation_size) {
         var hijo = {};
 
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.crossOver3(Evolution.generation[x], Evolution.generation[y]);
+            hijo.genome = Evolution.crossOver2(Evolution.generation[x], Evolution.generation[y]);
             if(Math.random() < conf.mutation_probability){
                 Evolution.mutate(hijo);
             }
