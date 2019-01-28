@@ -19,8 +19,9 @@ var missing_blocks = LightsUp.preProcess();
 console.log('after preprocess:');
 LightsUp.printBoard(LightsUp.board);
 Evolution.initiate(missing_blocks.length, conf.generation_size);
-console.log('after initial generation:');
-LightsUp.printBoard(LightsUp.board);
+console.log('missing cells: ' );
+for (let i =0; i < LightsUp.missing.length; i++)
+    console.log(LightsUp.missing[i]);
 console.log('Genome length : '+ LightsUp.missing.length);
 
 while (maxFitness > 0 && generationCounter < conf.number_of_generations){

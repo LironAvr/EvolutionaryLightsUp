@@ -96,7 +96,7 @@ LightsUp.light = function(row, col, board) {
 
     //Light Right
     i = col + 1;
-    while (i < board[0].length && lightable(row, i, board)){
+    while (i < board.length && lightable(row, i, board)){
         board[row][i] = CellType.LIGHT;
         i++;
     }
@@ -197,102 +197,176 @@ LightsUp.checkMissingLights = function(row, col, count, board){
     return ans;
 };
 
-//LightsUp.printBoard = function(){
-//    for(let i = 0; i < LightsUp.board.length; i++){
-//        console.log(LightsUp.board[i].toString())
-//    }
-//    console.log("\n");
-//};
+// LightsUp.printBoard_old = function (board) {
+//     board.forEach(function (line) {
+//         let count = 0;
+//         let string = "";
+//         line.forEach(function (cell) {
+//             switch (cell) {
+//                 case CellType.LIGHT_BULB:
+//                     string += "| ! ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.LIGHT:
+//                     string += "| ◼ ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.BLOCK:
+//                     string += "| * ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.ZERO_LIGHTS:
+//                     string += "| 0 ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.ONE_LIGHT:
+//                     string += "| 1 ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.TWO_LIGHTS:
+//                     string += "| 2 ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.THREE_LIGHTS:
+//                     string += "| 3 ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 case CellType.FOUR_LIGHTS:
+//                     string += "| 4 ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//                     break;
+//
+//                 default:
+//                     string += "| ◻ ";
+//                     count++;
+//                     if (count == board.length) {
+//                         console.log(string + "|")
+//                         count = 0;
+//                     }
+//
+//             }
+//         });
+//     });
+// };
 
 LightsUp.printBoard = function (board) {
-    board.forEach(function (line) {
+    for (let line = 0; line < board.length; line++) {
         let count = 0;
         let string = "";
-        line.forEach(function (cell) {
-            switch (cell) {
-                case CellType.LIGHT_BULB:
-                    string += "| ! ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.LIGHT:
-                    string += "| ◼ ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.BLOCK:
-                    string += "| * ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.ZERO_LIGHTS:
-                    string += "| 0 ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.ONE_LIGHT:
-                    string += "| 1 ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.TWO_LIGHTS:
-                    string += "| 2 ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.THREE_LIGHTS:
-                    string += "| 3 ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                case CellType.FOUR_LIGHTS:
-                    string += "| 4 ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-                    break;
-
-                default:
-                    string += "| ◻ ";
-                    count++;
-                    if (count == board.length) {
-                        console.log(string + "|")
-                        count = 0;
-                    }
-
+        for (let cell = 0; cell < board.length; cell++){
+            if(board[line][cell] == CellType.LIGHT_BULB){
+                string += "| ! ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
             }
-        });
-    });
+            else if(board[line][cell] == CellType.LIGHT ){
+                string += "| ◼ ";
+                count++;
+                if (count == board.length) {
+                   console.log(string + "|")
+                   count = 0;
+                }
+            }
+            else if(board[line][cell] == CellType.BLOCK ){
+                string += "| * ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+            else if(board[line][cell] == CellType.ZERO_LIGHTS ){
+                string += "| 0 ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+            else if(board[line][cell] == CellType.ONE_LIGHT ){
+                string += "| 1 ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+            else if(board[line][cell] == CellType.TWO_LIGHTS ){
+                string += "| 2 ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+            else if(board[line][cell] == CellType.THREE_LIGHTS ){
+                string += "| 3 ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+            else if(board[line][cell] == CellType.FOUR_LIGHTS ){
+                string += "| 4 ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+            else {
+                string += "| ◻ ";
+                count++;
+                if (count == board.length) {
+                    console.log(string + "|")
+                    count = 0;
+                }
+            }
+        }
+    }
 };
 
 LightsUp.preProcess = function (){
@@ -393,6 +467,83 @@ LightsUp.misplacedLights = function(board){
     //console.log("Errors: " + errors);
     return errors;
 };
+
+LightsUp.lightsSatisfaction = function(board){
+    //LightsUp.printBoard(board);
+    let errors = 0;
+    for(let i = 0; i < board.length; i++){
+        for(let k = 0; k < board.length; k++){
+            //If its a number block
+            if(board[i][k] >= 0 && board[i][k] < 5)
+                errors += Math.abs(LightsUp.checkMissingLights(i, k, board[i][k], board));
+        }
+    }
+    return errors;
+};
+
+LightsUp.getCollisions = function(board) {
+    console.log("calc collisions :");
+    LightsUp.printBoard(board);
+    var collision = 0;
+    for(let i = 0; i < LightsUp.missing.length; i++){
+        var firstRow = LightsUp.missing[i].row;
+        var firstCol = LightsUp.missing[i].col;
+
+        //check if exists LIGHT_BULB in i cell
+        if(board[firstRow][firstCol] == CellType.LIGHT_BULB) {
+            for (let j = 0; j < LightsUp.missing.length; j++) {
+                var secondRow = LightsUp.missing[j].row;
+                var secondCol = LightsUp.missing[j].col;
+
+                //check if exists LIGHT_BULB in j cell
+                if (board[secondRow][secondCol] == CellType.LIGHT_BULB && i != j)
+                {
+                    //check LIGHT_BULB in same row case
+                    if (firstRow == secondRow) {
+                        if (firstCol < secondCol) {
+                            if (checkRowCollisions(firstCol, secondCol, firstRow, board))
+                                collision++;
+                        }
+                        else {
+                            if (checkRowCollisions(secondCol, firstCol, firstRow, board))
+                                collision++;
+                        }
+                    }
+                    //check LIGHT_BULB in same col case
+                    if (firstCol == secondCol) {
+                        if (firstRow < secondRow) {
+                            if (checkColCollisions(firstRow, secondRow, firstCol, board))
+                                collision++;
+                        }
+                        else {
+                            if (checkColCollisions(secondRow, firstRow, firstCol, board))
+                                collision++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    collision = collision / 2;
+    console.log("num collisions :"+collision);
+    return collision ;
+};
+
+function checkRowCollisions(lowerCol, higherCol, row, board){
+    for(let i = lowerCol+1; i < higherCol; i++){
+        if(board[row][i] <= 4) // block cell or block with number cell
+            return false;
+    }
+    return true;
+}
+
+function checkColCollisions(lowerRow, higherRow, col, board){
+    for(let i = lowerRow+1; i < higherRow; i++){
+        if(board[i][col] <= 4) // block cell or block with number cell
+            return false;
+    }
+    return true;
+}
 
 //LightsUp.missing = LightsUp.preProcess();
 //console.log(LightsUp.missing);
