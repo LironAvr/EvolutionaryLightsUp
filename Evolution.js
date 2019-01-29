@@ -35,7 +35,7 @@ Evolution.calcGenerationFitness = function(){
 Evolution.fitness = function(individual){
     var tempBoard = LightsUp.board.map(x => Object.assign({}, x));
     LightsUp.assignmentLightsOnBoard(tempBoard, individual.genome);
-    individual.fitness = LightsUp.numOfUnlightCells(tempBoard) * 10;// + (LightsUp.misplacedLights(tempBoard) * 5);
+    individual.fitness = (LightsUp.numOfUnlightCells(tempBoard) + LightsUp.getCollisions(tempBoard) + LightsUp.lightsSatisfaction(tempBoard)) * 10;
 };
 
 Evolution.mutate = function(individual){

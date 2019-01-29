@@ -19,8 +19,9 @@ var missing_blocks = LightsUp.preProcess();
 console.log('after preprocess:');
 LightsUp.printBoard(LightsUp.board);
 Evolution.initiate(missing_blocks.length, conf.generation_size);
-console.log('after initial generation:');
-LightsUp.printBoard(LightsUp.board);
+console.log('missing cells: ' );
+for (let i =0; i < LightsUp.missing.length; i++)
+    console.log(LightsUp.missing[i]);
 console.log('Genome length : '+ LightsUp.missing.length);
 
 while (maxFitness > 0 && generationCounter < conf.number_of_generations){
@@ -44,14 +45,14 @@ while (maxFitness > 0 && generationCounter < conf.number_of_generations){
 
     lastFitness = maxFitness;
 
-    Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue)//
+    Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue);
     while (Evolution.generation.length < conf.generation_size) {
         var hijo = {};
 
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.crossOver3(Evolution.generation[x], Evolution.generation[y]);
+            hijo.genome = Evolution.crossOver2(Evolution.generation[x], Evolution.generation[y]);
             if(Math.random() < conf.mutation_probability){
                 Evolution.mutate(hijo);
             }
