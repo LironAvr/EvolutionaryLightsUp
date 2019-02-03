@@ -96,6 +96,60 @@ Evolution.crossOver3 = function (genA, genB) {
     return a;
 };
 
+Evolution.crossOverByRows = function (genA, genB){
+    var halfFromRows = Math.floor( LightsUp.board.length / 2);
+    var a = genA.genome.slice();
+    var b = genB.genome.slice();
+    for (let i = 0; i < a.length; i++){
+        if(LightsUp.missing[i].row > halfFromRows)
+            a[i] = b[i];
+    }
+    return a;
+};
+
+Evolution.crossoverGenomesZiv = function (genA, genB) {
+    var a, b;
+    if (Math.random() > 0.5) {
+        a = genA.slice(); //shallow copy
+        b = genB.slice();
+    } else {
+        a = genB.slice();
+        b = genA.slice();
+    }
+    if (Math.random() < 0.05){
+        for (var i = 0; i < a.length; i++) {
+            if (Math.random() < 0.5) {
+                a[i] = b[i];
+            }
+        }
+    }
+    else{
+        let patches = Math.floor(Math.random() * 2) + 1;
+        let t=0;
+        while (t< patches){
+            let idxa = Math.floor(Math.random() * a.length);
+            let idxb = Math.floor(Math.random() * a.length);
+            let c1 = Math.min(idxa,idxb);
+            let c2 = Math.max(idxa,idxb);
+
+
+            if (Math.abs(c1-c2)<Math.floor(a.length/2)){
+                for (let x=0; x<Math.abs(c1-c2);x++){
+                     a[c1+x]=b[c1+x];
+                }
+                t++;
+            }
+        }
+    }
+
+    /*let rand = Math.floor(Math.random() * a.length);
+    while(a[rand] != 0 && rand < a.length){
+        a[rand] = b[rand]
+        rand++
+    }*/
+    return a;
+};
+
 Evolution.parentSelection = function(){
 
 };
