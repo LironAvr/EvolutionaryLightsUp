@@ -24,8 +24,27 @@ for (let i =0; i < LightsUp.missing.length; i++)
     console.log(LightsUp.missing[i]);
 console.log('Genome length : '+ LightsUp.missing.length);
 
-while (maxFitness > 0 && generationCounter < conf.number_of_generations){
+while (maxFitness > 0 /*&& generationCounter < conf.number_of_generations*/){
     Evolution.calcGenerationFitness();
+
+    let covHash = {};
+
+    for (let i = 0; i < Evolution.generation.length; i++){
+        if (covHash[Evolution.generation[i].genome]){
+            covHash[Evolution.generation[i].genome]+=1;
+        }
+        else{
+            covHash[Evolution.generation[i].genome]=1;
+        }
+    }
+
+    for (let i = 0; i < Evolution.generation.length; i++){
+        Evolution.generation[i].fitness= Evolution.generation[i].fitness * covHash[Evolution.generation[i].genome];
+        //*Math.floor(individuals.length/i);
+        // covHash[Evolution.generation[i].genome]+=1;
+    }
+
+
     // Update max fitness
     Evolution.generation.sort((a, b) => (a.fitness - b.fitness));
 
@@ -52,7 +71,7 @@ while (maxFitness > 0 && generationCounter < conf.number_of_generations){
         if(Math.random() > conf.mutation_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length);
             var y = Math.floor(Math.random() * Evolution.generation.length);
-            hijo.genome = Evolution.crossOver2(Evolution.generation[x], Evolution.generation[y]);
+            hijo.genome = Evolution.crossOverByRows(Evolution.generation[x], Evolution.generation[y]);
             if(Math.random() < conf.mutation_probability){
                 Evolution.mutate(hijo);
             }
@@ -64,24 +83,6 @@ while (maxFitness > 0 && generationCounter < conf.number_of_generations){
         }
         Evolution.generation.push(hijo);
     }
-
-    //let newGeneration = [];
-    //for(let i = 0; i < conf.generation_size * conf.partGenerationToContinue; i++){
-    //    newGeneration.push(Evolution.generation[i]);
-    //    if(Math.random() < conf.mutation_probability)
-    //        Evolution.mutate(Evolution.generation[i]);
-    //    newGeneration.push(Evolution.generation[i]);
-    //}
-//
-    //for(let i = newGeneration.length; i < Evolution.generationSize; i++){
-    //    var ind1 = Math.floor(Math.random() * Evolution.generation.length);
-    //    var ind2 = Math.floor(Math.random() * Evolution.generation.length);
-    //    var newIndividual = {};
-    //    newIndividual.genome = Evolution.crossOver3(Evolution.generation[ind1], Evolution.generation[ind2]);
-    //    if(Math.random() < conf.mutation_probability)
-    //        Evolution.mutate(newIndividual);
-    //    newGeneration.push(newIndividual)
-    //}
 
     generationCounter++;
 }
