@@ -24,9 +24,10 @@ for (let i =0; i < LightsUp.missing.length; i++)
     console.log(LightsUp.missing[i]);
 console.log('Genome length : '+ LightsUp.missing.length);
 
-while (maxFitness > 0 /*&& generationCounter < conf.number_of_generations*/){
-    Evolution.calcGenerationFitness();
 
+
+while (maxFitness > 0 && generationCounter < conf.number_of_generations){
+    Evolution.calcGenerationFitness();
     let covHash = {};
 
     for (let i = 0; i < Evolution.generation.length; i++){
@@ -48,15 +49,7 @@ while (maxFitness > 0 /*&& generationCounter < conf.number_of_generations*/){
     // Update max fitness
     Evolution.generation.sort((a, b) => (a.fitness - b.fitness));
 
-    //if (maxFitness == Evolution.generation[0].fitness){
-    //    no_change_in_fitness++;
-    //    if (no_change_in_fitness == 5){
-    //        no_change_in_fitness = 0;
-    //    }
-    //}
-    //else{
-    //   maxFitness = Evolution.generation[0].fitness;
-    //}
+
     maxFitness = Evolution.generation[0].fitness;
     fitnessData.push(maxFitness);
 
@@ -64,6 +57,7 @@ while (maxFitness > 0 /*&& generationCounter < conf.number_of_generations*/){
 
     lastFitness = maxFitness;
 
+    /*
     Evolution.generation.length = Math.floor(conf.generation_size * conf.partGenerationToContinue);
     while (Evolution.generation.length < conf.generation_size) {
         var hijo = {};
@@ -84,6 +78,50 @@ while (maxFitness > 0 /*&& generationCounter < conf.number_of_generations*/){
         Evolution.generation.push(hijo);
     }
 
+    */
+    let keepCount = Math.floor(conf.generation_size * conf.percentage_winners);
+
+    let newArray = [];
+
+    for (let i = 0; i<keepCount; i++){
+        var child = {};
+        child.genome = Evolution.generation[i].genome.slice();
+
+
+        if(Math.random() < conf.crossover_probability){
+            var x = Math.floor(Math.random() * Evolution.generation.length  /*keepCount*/);
+            let childGenome = Evolution.crossoverGenomesZiv(child.genome.slice(), Evolution.generation[x].genome.slice());
+            let individual={};
+            individual.genome = childGenome;
+            Evolution.fitness(individual);
+            Evolution.fitness(child);
+
+            if (individual.fitness < child.fitness){
+                child.genome = childGenome;
+            }
+        }
+
+        if (Math.random() < conf.mutation_probability){
+            let mutatedChild = {};
+            mutatedChild.genome = child.genome.slice();
+            Evolution.mutate(mutatedChild);
+            Evolution.fitness(mutatedChild);
+            Evolution.fitness(child);
+
+            if (mutatedChild.fitness < child.fitness){
+                child.genome = mutatedChild.genome.slice();
+            }
+        }
+
+        newArray.push(child);
+    }
+
+    while (newArray.length < conf.generation_size){
+        var child = {};
+        child.genome = Evolution.createIndividual();
+        newArray.push(child);
+    }
+    Evolution.generation = newArray;
     generationCounter++;
 }
 
