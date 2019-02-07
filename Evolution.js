@@ -107,7 +107,17 @@ Evolution.crossOverByRows = function (genA, genB){
     return a;
 };
 
-Evolution.crossoverGenomesZiv = function (genA, genB) {
+Evolution.crossOverByRowsAndEven = function (genA, genB){
+    var a = genA.slice();
+    var b = genB.slice();
+    for (let i = 0; i < a.length; i++){
+        if(LightsUp.missing[i].row %2 == 0)
+            a[i] = b[i];
+    }
+    return a;
+};
+
+Evolution.crossoverGenomesTotal = function (genA, genB) {
     var a, b;
     if (Math.random() > 0.5) {
         a = genA.slice(); //shallow copy

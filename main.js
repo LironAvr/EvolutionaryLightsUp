@@ -24,11 +24,11 @@ for (let i =0; i < LightsUp.missing.length; i++)
     console.log(LightsUp.missing[i]);
 console.log('Genome length : '+ LightsUp.missing.length);
 
+let covHash = {};
 
 
 while (maxFitness > 0 && generationCounter < conf.number_of_generations){
     Evolution.calcGenerationFitness();
-    let covHash = {};
 
     for (let i = 0; i < Evolution.generation.length; i++){
         if (covHash[Evolution.generation[i].genome]){
@@ -90,7 +90,7 @@ while (maxFitness > 0 && generationCounter < conf.number_of_generations){
 
         if(Math.random() < conf.crossover_probability){
             var x = Math.floor(Math.random() * Evolution.generation.length  /*keepCount*/);
-            let childGenome = Evolution.crossoverGenomesZiv(child.genome.slice(), Evolution.generation[x].genome.slice());
+            let childGenome = Evolution.crossOverByRowsAndEven(child.genome.slice(), Evolution.generation[x].genome.slice());
             let individual={};
             individual.genome = childGenome;
             Evolution.fitness(individual);
