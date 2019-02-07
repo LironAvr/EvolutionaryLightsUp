@@ -152,11 +152,6 @@ Evolution.crossoverGenomesTotal = function (genA, genB) {
         }
     }
 
-    /*let rand = Math.floor(Math.random() * a.length);
-    while(a[rand] != 0 && rand < a.length){
-        a[rand] = b[rand]
-        rand++
-    }*/
     return a;
 };
 
